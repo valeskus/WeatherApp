@@ -9,7 +9,8 @@ export const useHomeController = () => {
   const {city, units} = WeatherStore.useWeatherStore();
   const getCurrentWeather = WeatherStore.useGetCurrentWeather();
   const getCoordinates = WeatherStore.useGetCoordinates();
-  const {getCityFromStorage} = useGetCurentCityFromStorage();
+  const {getCityFromStorage, getUnitsFromStorage} =
+    useGetCurentCityFromStorage();
   const errorGetCurrentWeather =
     ErrorsStore.useGetErrorFor('getCurrentWeather');
   const errorGetCoordinates = ErrorsStore.useGetErrorFor(
@@ -29,12 +30,15 @@ export const useHomeController = () => {
   );
 
   useEffect(() => {
+    getUnitsFromStorage();
+
     if (!city) {
       getCityFromStorage();
       return;
     }
+
     getCurrentWeather(city, units);
-  }, [city, getCurrentWeather, getCityFromStorage, units]);
+  }, [city, getCurrentWeather, getCityFromStorage, getUnitsFromStorage, units]);
 
   useEffect(() => {
     if (!!errorGetCurrentWeather || !!errorGetCoordinates) {
