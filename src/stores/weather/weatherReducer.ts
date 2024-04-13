@@ -1,15 +1,15 @@
 import * as Redux from 'redux';
 
 import {WeatherActions} from './weatherActions';
-import {CityLocModel} from '../../models';
+import {CityLocModel, CurrentWeather} from '../../models';
 
 export interface WeatherStoreState {
-  weather: any;
+  weather: CurrentWeather | undefined;
   city?: CityLocModel;
 }
 
 const initialState: WeatherStoreState = {
-  weather: [],
+  weather: undefined,
 };
 
 export function weatherReducer(
@@ -27,7 +27,7 @@ export function weatherReducer(
     }
 
     case WeatherActions.GET_CURRENT_WEATHER: {
-      const {weather} = action.payload;
+      const weather = action.payload as CurrentWeather;
 
       return {
         ...state,

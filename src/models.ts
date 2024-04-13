@@ -45,32 +45,29 @@ export interface CityLocModel {
   lon: number;
 }
 
-// export interface CurrentWeather {
-//   clouds: {all: 100};
-//   cod: 200;
-//   coord: {lat: 51.5073; lon: -0.1276};
-//   dt: 1713006153;
-//   id: 2643743;
-//   main: {
-//     feels_like: 290.97;
-//     humidity: 68;
-//     pressure: 1021;
-//     temp: 291.32;
-//     temp_max: 292.71;
-//     temp_min: 289.57;
-//   };
-//   name: 'London';
-//   sys: {
-//     country: 'GB';
-//     id: 2075535;
-//     sunrise: 1712984890;
-//     sunset: 1713034398;
-//     type: 2;
-//   };
-//   timezone: 3600;
-//   visibility: 10000;
-//   weather: [
-//     {description: 'overcast clouds'; icon: '04d'; id: 804; main: 'Clouds'},
-//   ];
-//   wind: {deg: 220; speed: 6.17};
-// }
+export interface CurrentWeather {
+  clouds: {
+    all: number;
+  };
+  dt: number; /// TODO time UTC
+  main: {
+    feels_like: number;
+    humidity: number;
+    pressure: number;
+    temp: number;
+  };
+  name: string;
+  visibility: number;
+  weather: [
+    {
+      description: string;
+      icon: string; //TODO how find?
+      id: number;
+      main: string;
+    },
+  ];
+  wind: {
+    deg: number;
+    speed: number;
+  };
+}

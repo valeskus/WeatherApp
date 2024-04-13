@@ -2,7 +2,7 @@ import {useEffect} from 'react';
 import * as WeatherStore from '../../stores/weather';
 
 export const useHomeController = () => {
-  const {city} = WeatherStore.useWeatherStore();
+  const {city, weather} = WeatherStore.useWeatherStore();
   const getCurrentWeather = WeatherStore.useGetCurrentWeather();
 
   useEffect(() => {
@@ -11,6 +11,12 @@ export const useHomeController = () => {
     }
     getCurrentWeather(city);
   }, [city, getCurrentWeather]);
+
+  useEffect(() => {
+    if (!weather) {
+      return;
+    }
+  }, [weather]);
 
   return {};
 };
