@@ -16,19 +16,20 @@ export const useSearchController = (params: SearchControllerParams) => {
     setPendingSearchTerm(nextValue);
   }, []);
 
+  const handlePress = useCallback(() => {
+    searchInputRef.current?.focus();
+    setPendingSearchTerm('');
+  }, []);
+
   const handleSearch = useCallback(() => {
     if (!pendingSearchTerm) {
       return;
     }
     params.onSearch(pendingSearchTerm);
-  }, [pendingSearchTerm, params]);
-
-  const handlePress = useCallback(() => {
-    searchInputRef.current?.focus();
-  }, []);
+    handlePress();
+  }, [pendingSearchTerm, params, handlePress]);
 
   const handleResetSearchInput = useCallback(() => {
-    setPendingSearchTerm('');
     handlePress();
   }, [handlePress]);
 
