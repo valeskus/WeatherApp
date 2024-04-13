@@ -7,8 +7,8 @@ export const useGetForecast = () => {
   const dispatch = Redux.useDispatch();
 
   return React.useCallback(
-    async (cityName: string) => {
-      await getForecast(dispatch, cityName);
+    async (cityName: string, units: 'imperial' | 'metric') => {
+      await getForecast(dispatch, cityName, units);
     },
     [dispatch],
   );

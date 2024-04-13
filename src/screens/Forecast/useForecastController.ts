@@ -5,7 +5,7 @@ import {Alert} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
 export const useForecastController = () => {
-  const {city, forecast} = WeatherStore.useWeatherStore();
+  const {city, forecast, units} = WeatherStore.useWeatherStore();
 
   const getForecast = WeatherStore.useGetForecast();
   const errorGetForecast = ErrorsStore.useGetErrorFor('getForecast');
@@ -16,8 +16,8 @@ export const useForecastController = () => {
     if (!city || forecast) {
       return;
     }
-    getForecast(city.name);
-  }, [city, forecast, getForecast]);
+    getForecast(city.name, units);
+  }, [city, forecast, getForecast, units]);
 
   useEffect(() => {
     if (!forecast) {

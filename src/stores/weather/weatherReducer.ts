@@ -3,13 +3,19 @@ import * as Redux from 'redux';
 import {WeatherActions} from './weatherActions';
 import {CityLocModel, CurrentWeather, WeatherForecastModel} from '../../models';
 
+export interface Units {
+  units: 'imperial' | 'metric';
+}
 export interface WeatherStoreState {
   currentWeather?: CurrentWeather;
   city?: CityLocModel;
   forecast?: WeatherForecastModel;
+  units: 'imperial' | 'metric';
 }
 
-const initialState: WeatherStoreState = {};
+const initialState: WeatherStoreState = {
+  units: 'metric',
+};
 
 export function weatherReducer(
   state = initialState,
@@ -40,6 +46,15 @@ export function weatherReducer(
       return {
         ...state,
         forecast,
+      };
+    }
+
+    case WeatherActions.SET_UNITS: {
+      const {units} = action.payload as Units;
+
+      return {
+        ...state,
+        units,
       };
     }
 

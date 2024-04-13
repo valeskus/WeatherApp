@@ -6,6 +6,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import {StatusBar} from 'react-native';
 import {Home} from './screens/Home';
 import {Forecast} from './screens/Forecast';
+import {Settings} from './screens/Settings';
 
 export type RootStackParamList = {
   Home: undefined;
@@ -31,6 +32,8 @@ export default function App(): React.JSX.Element {
       />
       <NavigationContainer>
         <Stack.Navigator>
+          <Stack.Screen name="Settings" component={Settings} />
+
           <Stack.Screen name="Home" component={Home} />
           <Stack.Screen name="Forecast" component={Forecast} />
         </Stack.Navigator>

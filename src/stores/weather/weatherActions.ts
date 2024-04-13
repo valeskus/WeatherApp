@@ -7,6 +7,7 @@ import {PersistentStorageManager} from '../../managers/PersistentStorageManager'
 export enum WeatherActions {
   GET_CURRENT_WEATHER = '@weather/get_current_weather',
   GET_FORECAST = '@weather/get_forecast',
+  SET_UNITS = '@weather/set_units',
   GET_COORDINATS = '@weather/get_coordinats',
   ERROR = '@error/weather',
 }
@@ -26,14 +27,23 @@ const actionGetCoordinates = (payload: CityLocModel) => ({
   payload,
 });
 
+const actionSetUnits = (units: 'imperial' | 'metric') => ({
+  type: WeatherActions.SET_UNITS,
+  payload: {units},
+});
+
 const actionError = (key: string, error: unknown) => ({
   type: WeatherActions.ERROR,
   payload: {[key]: error},
 });
 
-export const getForecast = async (dispatch: Dispatch, cityName: string) => {
+export const getForecast = async (
+  dispatch: Dispatch,
+  cityName: string,
+  units: 'imperial' | 'metric',
+) => {
   try {
-    const forecastWeather = await WeatherApi.getForecast(cityName);
+    const forecastWeather = await WeatherApi.getForecast(cityName, units);
 
     dispatch(actionGetForecast(forecastWeather));
   } catch (error) {
@@ -44,9 +54,10 @@ export const getForecast = async (dispatch: Dispatch, cityName: string) => {
 export const getCurrentWeather = async (
   dispatch: Dispatch,
   location: Omit<CityLocModel, 'name' | 'state'>,
+  units: 'imperial' | 'metric',
 ) => {
   try {
-    const weather = await WeatherApi.getCurrentWeather(location);
+    const weather = await WeatherApi.getCurrentWeather(location, units);
 
     dispatch(actionGetCurrentWeather(weather));
   } catch (error) {
@@ -65,5 +76,17 @@ export const getCoordinatesByLocationName = async (
     PersistentStorageManager.set('cityName', city.name);
   } catch (error) {
     dispatch(actionError('getCoordinatesByLocationName', error));
+  }
+};
+
+export const setUnits = async (
+  dispatch: Dispatch,
+  units: 'imperial' | 'metric',
+) => {
+  try {
+    dispatch(actionSetUnits(units));
+    PersistentStorageManager.set('units', units);
+  } catch (error) {
+    dispatch(actionError('setUnits', error));
   }
 };
