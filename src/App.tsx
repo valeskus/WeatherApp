@@ -3,10 +3,20 @@ import {Provider} from 'react-redux';
 import {store} from './stores/rootStore';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
-import {StatusBar} from 'react-native';
+import {Platform, StatusBar, UIManager} from 'react-native';
 import {Home} from './screens/Home';
 import {Forecast} from './screens/Forecast';
 import {Settings} from './screens/Settings';
+import {Header} from './components/Header';
+import {HeaderButton} from './components/HeaderButton';
+import {Colors} from './UI/Colors';
+
+if (
+  Platform.OS === 'android' &&
+  UIManager.setLayoutAnimationEnabledExperimental
+) {
+  UIManager.setLayoutAnimationEnabledExperimental(true);
+}
 
 export type RootStackParamList = {
   Home: undefined;
@@ -31,11 +41,45 @@ export default function App(): React.JSX.Element {
         translucent
       />
       <NavigationContainer>
-        <Stack.Navigator>
-          <Stack.Screen name="Settings" component={Settings} />
-
-          <Stack.Screen name="Home" component={Home} />
-          <Stack.Screen name="Forecast" component={Forecast} />
+        <Stack.Navigator
+          screenOptions={{
+            cardStyle: {
+              backgroundColor: Colors.background,
+            },
+          }}>
+          <Stack.Screen
+            options={{
+              title: 'Home',
+              // eslint-disable-next-line react/no-unstable-nested-components
+              header: ({options}) => (
+                <Header
+                  options={options}
+                  headerLeft={<HeaderButton title="Settings" />}
+                  headerRight={<HeaderButton title="Calendar" />}
+                />
+              ),
+            }}
+            name="Home"
+            component={Home}
+          />
+          <Stack.Screen
+            options={{
+              title: 'Forecast',
+              // eslint-disable-next-line react/no-unstable-nested-components
+              header: ({options}) => <Header options={options} />,
+            }}
+            name="Forecast"
+            component={Forecast}
+          />
+          <Stack.Screen
+            options={{
+              title: 'Settings',
+              // eslint-disable-next-line react/no-unstable-nested-components
+              header: ({options}) => <Header options={options} />,
+            }}
+            name="Settings"
+            component={Settings}
+          />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>

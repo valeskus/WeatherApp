@@ -19,10 +19,6 @@ export function Toggle({items, onChange, activeItem}: Props): JSX.Element {
     [onChange],
   );
 
-  // const ids = useMemo(() => {
-  //   return items.map(({ id }) => id);
-  // }, [items]);
-
   const activeItemWidth = useMemo(() => {
     return 100 / items.length;
   }, [items]);
