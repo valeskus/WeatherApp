@@ -1,7 +1,7 @@
 import {Dispatch} from 'redux';
 
 import * as WeatherApi from '../../api/weather.api';
-import {CityLocModel, LocationDataModel} from '../../models';
+import {CityLocModel} from '../../models';
 
 export enum WeatherActions {
   GET_CURRENT_WEATHER = '@weather/get_current_weather',
@@ -42,7 +42,7 @@ export const getForecast = async (dispatch: Dispatch, cityName: string) => {
 
 export const getCurrentWeather = async (
   dispatch: Dispatch,
-  location: LocationDataModel,
+  location: Omit<CityLocModel, 'name'>,
 ) => {
   try {
     const weather = await WeatherApi.getCurrentWeather(location);
@@ -58,9 +58,8 @@ export const getCoordinatesByLocationName = async (
   cityName: string,
 ) => {
   try {
-    const weather = await WeatherApi.getCoordinatesByLocationName(cityName);
-
-    dispatch(actionGetCoordinates(weather));
+    const city = await WeatherApi.getCoordinatesByLocationName(cityName);
+    dispatch(actionGetCoordinates(city));
   } catch (error) {
     dispatch(actionError('getCoordinatesByLocationName', error));
   }

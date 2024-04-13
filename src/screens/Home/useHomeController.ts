@@ -1,12 +1,16 @@
 import {useEffect} from 'react';
-// import {useGetCurrentWeather} from '../../stores/weather';
+import * as WeatherStore from '../../stores/weather';
 
 export const useHomeController = () => {
-  // const getCurrentWeather = useGetCurrentWeather();
+  const {city} = WeatherStore.useWeatherStore();
+  const getCurrentWeather = WeatherStore.useGetCurrentWeather();
 
   useEffect(() => {
-    // getCurrentWeather({});
-  });
+    if (!city) {
+      return;
+    }
+    getCurrentWeather(city);
+  }, [city, getCurrentWeather]);
 
   return {};
 };
