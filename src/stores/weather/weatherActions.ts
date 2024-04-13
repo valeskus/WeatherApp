@@ -2,6 +2,7 @@ import {Dispatch} from 'redux';
 
 import * as WeatherApi from '../../api/weather.api';
 import {CityLocModel} from '../../models';
+import {PersistentStorageManager} from '../../managers/PersistentStorageManager';
 
 export enum WeatherActions {
   GET_CURRENT_WEATHER = '@weather/get_current_weather',
@@ -61,6 +62,7 @@ export const getCoordinatesByLocationName = async (
     const city = await WeatherApi.getCoordinatesByLocationName(cityName);
 
     dispatch(actionGetCoordinates(city));
+    PersistentStorageManager.set('cityName', city.name);
   } catch (error) {
     dispatch(actionError('getCoordinatesByLocationName', error));
   }
