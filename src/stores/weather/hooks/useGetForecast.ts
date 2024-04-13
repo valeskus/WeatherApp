@@ -1,14 +1,14 @@
 import * as React from 'react';
 import * as Redux from 'react-redux';
 
-import {getWeather} from '../weatherActions';
+import {getForecast} from '../weatherActions';
 
-export const useGetWeatherByCityName = () => {
+export const useGetForecast = () => {
   const dispatch = Redux.useDispatch();
 
   return React.useCallback(
     async (cityName: string) => {
-      await getWeather(dispatch, cityName);
+      await getForecast(dispatch, cityName);
     },
     [dispatch],
   );

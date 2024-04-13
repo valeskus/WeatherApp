@@ -1,11 +1,11 @@
 import {useEffect} from 'react';
-import {useGetWeatherByCityName} from '../../stores/weather';
+// import {useGetCurrentWeather} from '../../stores/weather';
 
 export const useHomeController = () => {
-  const getWeatherByCityName = useGetWeatherByCityName();
+  // const getCurrentWeather = useGetCurrentWeather();
 
   useEffect(() => {
-    getWeatherByCityName('London');
+    // getCurrentWeather({});
   });
 
   return {};
