@@ -1,11 +1,22 @@
 import {useEffect} from 'react';
-import {useGetForecast} from '../../stores/weather';
+import * as WeatherStore from '../../stores/weather';
 
 export const useForecastController = () => {
-  const getForecast = useGetForecast();
+  const {city, forecast} = WeatherStore.useWeatherStore();
+
+  const getForecast = WeatherStore.useGetForecast();
 
   useEffect(() => {
-    getForecast('London');
+    if (!city || forecast) {
+      return;
+    }
+    getForecast(city.name);
+  }, [city, forecast, getForecast]);
+
+  useEffect(() => {
+    if (!forecast) {
+      return;
+    }
   });
 
   return {};

@@ -32,9 +32,9 @@ const actionError = (key: string, error: unknown) => ({
 
 export const getForecast = async (dispatch: Dispatch, cityName: string) => {
   try {
-    const weather = await WeatherApi.getForecast(cityName);
+    const forecastWeather = await WeatherApi.getForecast(cityName);
 
-    dispatch(actionGetForecast(weather));
+    dispatch(actionGetForecast(forecastWeather));
   } catch (error) {
     dispatch(actionError('getForecast', error));
   }
@@ -59,6 +59,7 @@ export const getCoordinatesByLocationName = async (
 ) => {
   try {
     const city = await WeatherApi.getCoordinatesByLocationName(cityName);
+
     dispatch(actionGetCoordinates(city));
   } catch (error) {
     dispatch(actionError('getCoordinatesByLocationName', error));

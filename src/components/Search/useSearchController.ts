@@ -1,14 +1,12 @@
 import {useCallback, useRef, useState} from 'react';
 import {TextInput} from 'react-native';
-import {useGetCoordinates} from '../../stores/weather';
 
 export interface SearchControllerParams {
-  onSearch: () => void;
+  onSearch: (searchTerm: string) => void;
 }
 
 export const useSearchController = (params: SearchControllerParams) => {
   const [pendingSearchTerm, setPendingSearchTerm] = useState<string>('');
-  const getCoordinates = useGetCoordinates();
 
   const [isFocused, setFocused] = useState(false);
 
@@ -22,10 +20,8 @@ export const useSearchController = (params: SearchControllerParams) => {
     if (!pendingSearchTerm) {
       return;
     }
-    params.onSearch();
-
-    getCoordinates(pendingSearchTerm);
-  }, [pendingSearchTerm, getCoordinates, params]);
+    params.onSearch(pendingSearchTerm);
+  }, [pendingSearchTerm, params]);
 
   const handlePress = useCallback(() => {
     searchInputRef.current?.focus();

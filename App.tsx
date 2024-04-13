@@ -5,10 +5,23 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {StatusBar} from 'react-native';
 import {Home} from './src/screens/Home';
+import {Forecast} from './src/screens/Forecast';
+
+export type RootStackParamList = {
+  Home: undefined;
+  Forecast: undefined;
+  Settings: undefined;
+};
+
+const Stack = createStackNavigator();
+
+declare global {
+  namespace ReactNavigation {
+    interface RootParamList extends RootStackParamList {}
+  }
+}
 
 export default function App(): React.JSX.Element {
-  const Stack = createStackNavigator();
-
   return (
     <Provider store={store}>
       <StatusBar
@@ -19,6 +32,7 @@ export default function App(): React.JSX.Element {
       <NavigationContainer>
         <Stack.Navigator>
           <Stack.Screen name="Home" component={Home} />
+          <Stack.Screen name="Forecast" component={Forecast} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>

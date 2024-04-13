@@ -1,16 +1,18 @@
-import {CityLocModel, CurrentWeather} from '../models';
+import {CityLocModel, CurrentWeather, WeatherForecastModel} from '../models';
 import {client} from './client.api';
 import {API_KEY} from '@env';
 
-export const getForecast = async (city: string): Promise<{}> => {
-  const result = await client.get('/data/2.5/forecast', {
+export const getForecast = async (
+  city: string,
+): Promise<WeatherForecastModel> => {
+  const result = await client.get<WeatherForecastModel>('/data/2.5/forecast', {
     params: {
       q: city,
       APPID: API_KEY,
     },
   });
 
-  return result.data;
+  return result.data as WeatherForecastModel;
 };
 
 export const getCurrentWeather = async (

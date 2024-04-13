@@ -6,11 +6,10 @@ import {useHomeController} from './useHomeController';
 import {Search} from '../../components/Search';
 
 export function Home(): JSX.Element {
-  const {} = useHomeController();
-
+  const {handleSearch} = useHomeController();
   return (
     <View style={styles.homeScreenContainer}>
-      <Search onSearch={() => {}} />
+      <Search onSearch={handleSearch} />
     </View>
   );
 }

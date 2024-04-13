@@ -1,41 +1,17 @@
 export interface WeatherDayModel {
-  dt: number; //Time of data forecasted, unix, UTC
+  dt: number; /// TODO time UTC
   main: {
-    temp: number;
-    feels_like: number;
     temp_min: number;
     temp_max: number;
-    pressure: number;
-    humidity: number;
   };
   weather: [
     {
-      id: 500;
-      main: 'Rain';
-      description: 'light rain';
-      icon: '10d';
+      icon: string; //TODO how find?
     },
   ];
-  clouds: {
-    all: 100;
-  };
-  wind: {
-    speed: 0.62;
-    deg: 349;
-    gust: 1.18;
-  };
-  visibility: 10000;
-  pop: 0.32;
-  rain: {
-    '3h': 0.26;
-  };
-  sys: {
-    pod: 'd';
-  };
-  dt_txt: '2022-08-30 15:00:00';
 }
 
-export interface WeatherInfoModel {
+export interface WeatherForecastModel {
   list: Array<WeatherDayModel>;
 }
 
@@ -56,7 +32,6 @@ export interface CurrentWeather {
     pressure: number;
     temp: number;
   };
-  name: string;
   visibility: number;
   weather: [
     {
