@@ -23,9 +23,6 @@ export interface CityLocModel {
 }
 
 export interface CurrentWeather {
-  clouds: {
-    all: number;
-  };
   dt: number; /// TODO time UTC
   main: {
     feels_like: number;
