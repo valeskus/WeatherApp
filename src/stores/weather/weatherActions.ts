@@ -43,7 +43,7 @@ export const getForecast = async (dispatch: Dispatch, cityName: string) => {
 
 export const getCurrentWeather = async (
   dispatch: Dispatch,
-  location: Omit<CityLocModel, 'name'>,
+  location: Omit<CityLocModel, 'name' | 'state'>,
 ) => {
   try {
     const weather = await WeatherApi.getCurrentWeather(location);

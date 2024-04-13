@@ -8,7 +8,7 @@ export const useGetCurrentWeather = () => {
   const dispatch = Redux.useDispatch();
 
   return React.useCallback(
-    async (location: Omit<CityLocModel, 'name'>) => {
+    async (location: Omit<CityLocModel, 'name' | 'state'>) => {
       await getCurrentWeather(dispatch, location);
     },
     [dispatch],

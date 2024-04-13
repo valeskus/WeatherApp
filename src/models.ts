@@ -19,6 +19,7 @@ export interface CityLocModel {
   name: string;
   lat: number;
   lon: number;
+  state: string;
 }
 
 export interface CurrentWeather {

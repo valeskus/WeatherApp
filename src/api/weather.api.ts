@@ -16,7 +16,7 @@ export const getForecast = async (
 };
 
 export const getCurrentWeather = async (
-  location: Omit<CityLocModel, 'name'>,
+  location: Omit<CityLocModel, 'name' | 'state'>,
 ): Promise<CurrentWeather> => {
   const result = await client.get<CurrentWeather>('/data/2.5/weather', {
     params: {

@@ -17,11 +17,11 @@ export function weatherReducer(
 ): WeatherStoreState {
   switch (action.type) {
     case WeatherActions.GET_COORDINATS: {
-      const {name, lat, lon} = action.payload as CityLocModel;
+      const city = action.payload as CityLocModel;
 
       return {
         ...state,
-        city: {name, lat, lon},
+        city,
       };
     }
 
