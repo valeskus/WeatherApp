@@ -1,11 +1,11 @@
 import React from 'react';
 import {Provider} from 'react-redux';
-import {store} from './src/stores/rootStore';
+import {store} from './stores/rootStore';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {StatusBar} from 'react-native';
-import {Home} from './src/screens/Home';
-import {Forecast} from './src/screens/Forecast';
+import {Home} from './screens/Home';
+import {Forecast} from './screens/Forecast';
 
 export type RootStackParamList = {
   Home: undefined;
