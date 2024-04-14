@@ -12,6 +12,7 @@ interface Props extends WeatherCardControllerParams {}
 
 export function WeatherCard(props: Props): JSX.Element {
   const {unit, date} = useWeatherCardController(props);
+
   return (
     <View style={styles.weatherContainer}>
       <View style={styles.dateTempContainer}>
@@ -26,19 +27,17 @@ export function WeatherCard(props: Props): JSX.Element {
 
         <View style={[styles.cardItem, styles.tempIconContainer]}>
           <Text style={styles.temp}>
-            {props.weatherForDay.weather[0].description}
+            {Object.keys(props.weatherForDay.weather)}
           </Text>
           <Text style={styles.temp}>
-            {Math.round(props.weatherForDay.main.temp_min)}°{unit}
+            {props.weatherForDay.temp_min}°{unit}
           </Text>
           <Text style={styles.temp}>
-            {Math.round(props.weatherForDay.main.temp_max)}°{unit}
+            {props.weatherForDay.temp_max}°{unit}
           </Text>
           <Image
             style={styles.icon}
-            source={
-              Icons[props.weatherForDay?.weather[0].icon as keyof typeof Icons]
-            }
+            source={Icons[props.weatherForDay.icon as keyof typeof Icons]}
           />
         </View>
       </View>

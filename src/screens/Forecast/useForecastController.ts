@@ -1,15 +1,21 @@
-import {useEffect} from 'react';
+import {useEffect, useState} from 'react';
 import * as WeatherStore from '../../stores/weather';
 import * as ErrorsStore from '../../stores/errors';
 import {Alert} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
+import {TransformedArrayElement, useWeatherForecastFormat} from './hooks';
 
 export const useForecastController = () => {
+  const [farmatedForecast, setFormatedForecast] = useState<
+    TransformedArrayElement[] | undefined
+  >();
+
   const {city, forecast, units} = WeatherStore.useWeatherStore();
   const getForecast = WeatherStore.useGetForecast();
   const errorGetForecast = ErrorsStore.useGetErrorFor('getForecast');
   const resetGetForecastError = ErrorsStore.useResetErrors('getForecast');
   const navigation = useNavigation();
+  const {formatWeather} = useWeatherForecastFormat(forecast?.list);
 
   useEffect(() => {
     if (!city || forecast) {
@@ -22,7 +28,9 @@ export const useForecastController = () => {
     if (!forecast) {
       return;
     }
-  });
+    const array = formatWeather();
+    setFormatedForecast(array);
+  }, [forecast, formatWeather]);
 
   useEffect(() => {
     if (errorGetForecast) {
@@ -33,7 +41,7 @@ export const useForecastController = () => {
   }, [errorGetForecast, resetGetForecastError, navigation]);
 
   return {
-    weatherList: forecast?.list,
+    weatherList: farmatedForecast,
     units,
     city,
   };

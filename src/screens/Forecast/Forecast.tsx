@@ -11,9 +11,9 @@ export function Forecast(): JSX.Element {
   return (
     <View style={styles.forecastScreenContainer}>
       <ScrollView style={styles.cardContainer}>
-        {weatherList && (
+        {city && weatherList && (
           <>
-            <Text style={styles.note}>{'Last search result:'}</Text>
+            <Text style={styles.note}>{city.name}:</Text>
             {weatherList.map((item, index) => (
               <WeatherCard
                 key={index}
