@@ -6,14 +6,25 @@ export interface WeatherDayModel {
   };
   weather: [
     {
+      id: number;
       icon: string;
       description: string;
+      main: string;
     },
   ];
 }
 
 export interface WeatherForecastModel {
   list: Array<WeatherDayModel>;
+}
+
+export interface PlainForecastItem {
+  temp_min: number;
+  temp_max: number;
+  description: string;
+  main: string;
+  icon: string;
+  id: number;
 }
 
 export interface CityLocModel {

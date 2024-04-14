@@ -1,50 +1,61 @@
-import {useCallback, useEffect, useState} from 'react';
-import {TransformedArrayElement} from '../../hooks';
+import {useMemo} from 'react';
+import {PlainForecastItem} from '../../../../models';
 
 export interface WeatherCardControllerParams {
-  weatherForDay: TransformedArrayElement;
+  weatherData: [date: string, Array<PlainForecastItem>];
   units: 'Imperial' | 'Metric';
   city: string;
 }
 
+const dateRegexp =
+  /^(?<WeekDay>[a-zA-Z]{3})\s(?<Month>[a-zA-Z]{3})\s(?<Day>\d{2})\s(?<Year>\d{4})/;
+
 export const useWeatherCardController = ({
-  weatherForDay,
+  weatherData,
   units,
 }: WeatherCardControllerParams) => {
-  const [unit, setUnit] = useState<'F' | 'C'>();
-  const [date, setDate] = useState<{day: string; dateString: string} | null>(
-    null,
+  const [date, weatherForDate] = weatherData;
+
+  const parsedData = useMemo(() => {
+    const {groups} = dateRegexp.exec(date) || {
+      groups: {
+        WeekDay: '',
+        Day: '',
+        Month: '',
+        Year: '',
+      },
+    };
+
+    return {
+      weekDay: groups?.WeekDay || '',
+      dateString: `${groups?.Day}.${groups?.Month}.${groups?.Year}`,
+    };
+  }, [date]);
+
+  const referenceIndex = useMemo(
+    () => Math.floor(weatherForDate.length / 2),
+    [weatherForDate.length],
   );
-  useEffect(() => {
-    if (units === 'Imperial') {
-      return setUnit('F');
-    }
-    setUnit('C');
-  }, [units]);
 
-  const getWeekDay = useCallback(() => {
-    const weekDays = ['Sun.', 'Mon.', 'Tues', 'Wed.', 'Thurs.', 'Fri.'];
+  const weatherInfo = useMemo(
+    () =>
+      weatherForDate.reduce((accumulator, item) => {
+        if (accumulator.temp_max < item.temp_max) {
+          accumulator.temp_max = item.temp_max;
+        }
 
-    const dateParts = weatherForDay.formattedDate.split('.');
-    const day = parseInt(dateParts[0], 10);
-    const month = parseInt(dateParts[1], 10) - 1;
-    const year = parseInt(dateParts[2], 10) + 2000;
+        if (accumulator.temp_min > item.temp_min) {
+          accumulator.temp_min = item.temp_min;
+        }
 
-    const dateInfo = new Date(year, month, day);
-    const dayOfWeekIndex = dateInfo.getDay();
-
-    setDate({
-      day: weekDays[dayOfWeekIndex],
-      dateString: weatherForDay.formattedDate,
-    });
-  }, [weatherForDay]);
-
-  useEffect(() => {
-    getWeekDay();
-  }, [getWeekDay]);
+        return accumulator;
+      }, weatherForDate[referenceIndex]),
+    [weatherForDate, referenceIndex],
+  );
 
   return {
-    unit,
-    date,
+    unit: units === 'Imperial' ? 'F' : 'C',
+    weatherInfo,
+    ...parsedData,
   };
 };

@@ -6,18 +6,18 @@ import {useForecastController} from './useForecastController';
 import {WeatherCard} from './components/WeatherCard/WeatherCard';
 
 export function Forecast(): JSX.Element {
-  const {weatherList, units, city} = useForecastController();
+  const {forecast, units, city} = useForecastController();
 
   return (
     <View style={styles.forecastScreenContainer}>
       <ScrollView style={styles.cardContainer}>
-        {city && weatherList && (
+        {city && forecast && (
           <>
             <Text style={styles.note}>{city.name}:</Text>
-            {weatherList.map((item, index) => (
+            {forecast.map((weatherData, index) => (
               <WeatherCard
                 key={index}
-                weatherForDay={item}
+                weatherData={weatherData}
                 units={units}
                 city={city?.name || ''}
               />

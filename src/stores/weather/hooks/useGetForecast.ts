@@ -8,7 +8,7 @@ export const useGetForecast = () => {
 
   return React.useCallback(
     async (cityName: string, units: 'Imperial' | 'Metric') => {
-      await getForecast(dispatch, cityName, units);
+      await getForecast(cityName, units, dispatch);
     },
     [dispatch],
   );

@@ -11,34 +11,34 @@ import {Icons} from '../../../../UI/Icons';
 interface Props extends WeatherCardControllerParams {}
 
 export function WeatherCard(props: Props): JSX.Element {
-  const {unit, date} = useWeatherCardController(props);
+  const {unit, weatherInfo, weekDay, dateString} =
+    useWeatherCardController(props);
 
   return (
     <View style={styles.weatherContainer}>
       <View style={styles.dateTempContainer}>
         <View style={[styles.cardItem]}>
-          {date && (
-            <View>
-              <Text style={styles.text}>{date.day}</Text>
-              <Text style={styles.text_secondary}>{date.dateString}</Text>
-            </View>
-          )}
+          <View>
+            <Text style={styles.text}>{weekDay}</Text>
+            <Text style={styles.text_secondary}>{dateString}</Text>
+            <Text style={styles.temp}>{weatherInfo.description}</Text>
+          </View>
         </View>
 
         <View style={[styles.cardItem, styles.tempIconContainer]}>
-          <Text style={styles.temp}>
-            {Object.keys(props.weatherForDay.weather)}
-          </Text>
-          <Text style={styles.temp}>
-            {props.weatherForDay.temp_min}°{unit}
-          </Text>
-          <Text style={styles.temp}>
-            {props.weatherForDay.temp_max}°{unit}
-          </Text>
           <Image
             style={styles.icon}
-            source={Icons[props.weatherForDay.icon as keyof typeof Icons]}
+            source={Icons[weatherInfo.icon as keyof typeof Icons]}
           />
+          <View style={styles.tempBox}>
+            <Text style={styles.temp}>
+              {Math.round(weatherInfo.temp_min)}°{unit}
+            </Text>
+            <Text style={styles.temp}>{' - '}</Text>
+            <Text style={styles.temp}>
+              {Math.round(weatherInfo.temp_max)}°{unit}
+            </Text>
+          </View>
         </View>
       </View>
     </View>

@@ -1,5 +1,5 @@
 import {CityLocModel, CurrentWeather, WeatherForecastModel} from '../models';
-import {client} from './client.api';
+import {client} from './client';
 import {API_KEY} from '@env';
 
 export const getForecast = async (
@@ -13,7 +13,8 @@ export const getForecast = async (
       units,
     },
   });
-  return result.data as WeatherForecastModel;
+
+  return result.data;
 };
 
 export const getCurrentWeather = async (
@@ -28,7 +29,8 @@ export const getCurrentWeather = async (
       units,
     },
   });
-  return result.data as CurrentWeather;
+
+  return result.data;
 };
 
 export const getCoordinatesByLocationName = async (

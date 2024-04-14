@@ -27,7 +27,7 @@ export const styles = StyleSheet.create({
   cardItem: {
     flex: 1,
     flexDirection: 'column',
-    height: 300,
+    height: 150,
   },
   weatherInfo: {
     height: 100,
@@ -56,7 +56,7 @@ export const styles = StyleSheet.create({
     color: 'white',
   },
   temp: {
-    fontSize: 35,
+    fontSize: 20,
     fontWeight: '700',
     paddingTop: 20,
     color: 'white',
@@ -66,7 +66,7 @@ export const styles = StyleSheet.create({
     fontWeight: '500',
     color: Colors.primary,
   },
-  cityText: {
-    color: Colors.primary,
+  tempBox: {
+    flexDirection: 'row',
   },
 });

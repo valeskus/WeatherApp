@@ -1,7 +1,7 @@
 import {Dispatch} from 'redux';
 
 import * as WeatherApi from '../../api/weather.api';
-import {CityLocModel} from '../../models';
+import {CityLocModel, WeatherForecastModel} from '../../models';
 import {PersistentStorageManager} from '../../managers/PersistentStorageManager';
 
 export enum WeatherActions {
@@ -12,7 +12,7 @@ export enum WeatherActions {
   ERROR = '@error/weather',
 }
 
-const actionGetForecast = (payload: any) => ({
+const actionGetForecast = (payload: WeatherForecastModel) => ({
   type: WeatherActions.GET_FORECAST,
   payload,
 });
@@ -38,9 +38,9 @@ const actionError = (key: string, error: unknown) => ({
 });
 
 export const getForecast = async (
-  dispatch: Dispatch,
   cityName: string,
   units: 'Imperial' | 'Metric',
+  dispatch: Dispatch,
 ) => {
   try {
     const forecastWeather = await WeatherApi.getForecast(cityName, units);
