@@ -9,4 +9,13 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 10,
     alignItems: 'center',
   },
+  cardContainer: {
+    width: '100%',
+  },
+  note: {
+    fontSize: 15,
+    fontWeight: '500',
+    paddingVertical: 15,
+    color: Colors.primary,
+  },
 });

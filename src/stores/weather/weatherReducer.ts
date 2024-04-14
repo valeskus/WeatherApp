@@ -4,17 +4,17 @@ import {WeatherActions} from './weatherActions';
 import {CityLocModel, CurrentWeather, WeatherForecastModel} from '../../models';
 
 export interface Units {
-  units: 'imperial' | 'metric';
+  units: 'Imperial' | 'Metric';
 }
 export interface WeatherStoreState {
   currentWeather?: CurrentWeather;
   city?: CityLocModel;
   forecast?: WeatherForecastModel;
-  units: 'imperial' | 'metric';
+  units: 'Imperial' | 'Metric';
 }
 
 const initialState: WeatherStoreState = {
-  units: 'metric',
+  units: 'Metric',
 };
 
 export function weatherReducer(

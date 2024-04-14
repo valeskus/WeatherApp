@@ -7,7 +7,7 @@ export const useSetUnits = () => {
   const dispatch = Redux.useDispatch();
 
   return React.useCallback(
-    async (unit: 'imperial' | 'metric') => {
+    async (unit: 'Imperial' | 'Metric') => {
       await setUnits(dispatch, unit);
     },
     [dispatch],

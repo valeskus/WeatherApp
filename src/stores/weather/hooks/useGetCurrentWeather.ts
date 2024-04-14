@@ -10,7 +10,7 @@ export const useGetCurrentWeather = () => {
   return React.useCallback(
     async (
       location: Omit<CityLocModel, 'name' | 'state'>,
-      units: 'imperial' | 'metric',
+      units: 'Imperial' | 'Metric',
     ) => {
       await getCurrentWeather(dispatch, location, units);
     },

@@ -1,12 +1,12 @@
 export interface WeatherDayModel {
-  dt: number; /// TODO time UTC
+  dt: number;
   main: {
     temp_min: number;
     temp_max: number;
   };
   weather: [
     {
-      icon: string; //TODO how find?
+      icon: string;
     },
   ];
 }
@@ -23,24 +23,19 @@ export interface CityLocModel {
 }
 
 export interface CurrentWeather {
-  dt: number; /// TODO time UTC
+  dt: any;
   main: {
     feels_like: number;
     humidity: number;
-    pressure: number;
     temp: number;
   };
   visibility: number;
   weather: [
     {
       description: string;
-      icon: string; //TODO how find?
-      id: number;
+      icon: string;
+      id: string;
       main: string;
     },
   ];
-  wind: {
-    deg: number;
-    speed: number;
-  };
 }

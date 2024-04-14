@@ -5,7 +5,7 @@ import {styles} from './styles';
 
 interface Props {
   items: Array<string>;
-  activeItem: 'imperial' | 'metric';
+  activeItem: 'Imperial' | 'Metric';
   onChange: (elunitsValue: string) => void;
 }
 

@@ -27,7 +27,7 @@ const actionGetCoordinates = (payload: CityLocModel) => ({
   payload,
 });
 
-const actionSetUnits = (units: 'imperial' | 'metric') => ({
+const actionSetUnits = (units: 'Imperial' | 'Metric') => ({
   type: WeatherActions.SET_UNITS,
   payload: {units},
 });
@@ -40,7 +40,7 @@ const actionError = (key: string, error: unknown) => ({
 export const getForecast = async (
   dispatch: Dispatch,
   cityName: string,
-  units: 'imperial' | 'metric',
+  units: 'Imperial' | 'Metric',
 ) => {
   try {
     const forecastWeather = await WeatherApi.getForecast(cityName, units);
@@ -54,7 +54,7 @@ export const getForecast = async (
 export const getCurrentWeather = async (
   dispatch: Dispatch,
   location: Omit<CityLocModel, 'name' | 'state'>,
-  units: 'imperial' | 'metric',
+  units: 'Imperial' | 'Metric',
 ) => {
   try {
     const weather = await WeatherApi.getCurrentWeather(location, units);
@@ -81,7 +81,7 @@ export const getCoordinatesByLocationName = async (
 
 export const setUnits = async (
   dispatch: Dispatch,
-  units: 'imperial' | 'metric',
+  units: 'Imperial' | 'Metric',
 ) => {
   try {
     dispatch(actionSetUnits(units));

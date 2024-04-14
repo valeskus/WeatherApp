@@ -10,7 +10,7 @@ export const useSettingsController = () => {
       if (!unitsValue) {
         return;
       }
-      setUnits(unitsValue as 'imperial' | 'metric');
+      setUnits(unitsValue as 'Imperial' | 'Metric');
     },
     [setUnits],
   );

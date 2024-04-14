@@ -6,7 +6,7 @@ import {useGetCurentCityFromStorage} from './hooks';
 import {Alert} from 'react-native';
 
 export const useHomeController = () => {
-  const {city, units} = WeatherStore.useWeatherStore();
+  const {city, units, currentWeather} = WeatherStore.useWeatherStore();
   const getCurrentWeather = WeatherStore.useGetCurrentWeather();
   const getCoordinates = WeatherStore.useGetCoordinates();
   const {getCityFromStorage, getUnitsFromStorage} =
@@ -28,7 +28,6 @@ export const useHomeController = () => {
     },
     [getCoordinates],
   );
-
   useEffect(() => {
     getUnitsFromStorage();
 
@@ -55,5 +54,8 @@ export const useHomeController = () => {
 
   return {
     handleSearch,
+    currentWeather,
+    units,
+    city,
   };
 };
