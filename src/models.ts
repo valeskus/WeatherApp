@@ -7,6 +7,7 @@ export interface WeatherDayModel {
   weather: [
     {
       icon: string;
+      description: string;
     },
   ];
 }

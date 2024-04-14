@@ -13,7 +13,6 @@ export const getForecast = async (
       units,
     },
   });
-
   return result.data as WeatherForecastModel;
 };
 

@@ -6,7 +6,6 @@ import {useNavigation} from '@react-navigation/native';
 
 export const useForecastController = () => {
   const {city, forecast, units} = WeatherStore.useWeatherStore();
-
   const getForecast = WeatherStore.useGetForecast();
   const errorGetForecast = ErrorsStore.useGetErrorFor('getForecast');
   const resetGetForecastError = ErrorsStore.useResetErrors('getForecast');
@@ -33,5 +32,9 @@ export const useForecastController = () => {
     }
   }, [errorGetForecast, resetGetForecastError, navigation]);
 
-  return {};
+  return {
+    weatherList: forecast?.list,
+    units,
+    city,
+  };
 };
