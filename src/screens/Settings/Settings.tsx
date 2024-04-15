@@ -1,5 +1,5 @@
 import React from 'react';
-import {View} from 'react-native';
+import {Text, View} from 'react-native';
 
 import {styles} from './styles';
 import {useSettingsController} from './useSettingsController';
@@ -10,6 +10,7 @@ export function Settings(): JSX.Element {
 
   return (
     <View style={styles.settingsScreenContainer}>
+      <Text style={styles.title}>{'Units of measurement :'}</Text>
       <Toggle
         onChange={handleChangeUnits}
         items={['Imperial', 'Metric']}

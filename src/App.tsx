@@ -1,15 +1,15 @@
 import React from 'react';
-import {Provider} from 'react-redux';
-import {store} from './stores/rootStore';
-import {NavigationContainer} from '@react-navigation/native';
-import {createStackNavigator} from '@react-navigation/stack';
-import {Platform, StatusBar, UIManager} from 'react-native';
-import {Home} from './screens/Home';
-import {Forecast} from './screens/Forecast';
-import {Settings} from './screens/Settings';
-import {Header} from './components/Header';
-import {HeaderButton} from './components/HeaderButton';
-import {Colors} from './UI/Colors';
+import { Provider } from 'react-redux';
+import { store } from './stores/rootStore';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import { Platform, StatusBar, UIManager } from 'react-native';
+import { Home } from './screens/Home';
+import { Forecast } from './screens/Forecast';
+import { Settings } from './screens/Settings';
+import { Header } from './components/Header';
+import { HeaderButton } from './components/HeaderButton';
+import { Colors } from './UI/Colors';
 
 if (
   Platform.OS === 'android' &&
@@ -28,7 +28,7 @@ const Stack = createStackNavigator();
 
 declare global {
   namespace ReactNavigation {
-    interface RootParamList extends RootStackParamList {}
+    interface RootParamList extends RootStackParamList { }
   }
 }
 
@@ -50,8 +50,7 @@ export default function App(): React.JSX.Element {
           <Stack.Screen
             options={{
               title: 'Home',
-              // eslint-disable-next-line react/no-unstable-nested-components
-              header: ({options}) => (
+              header: ({ options }) => (
                 <Header
                   options={options}
                   headerLeft={<HeaderButton title="Settings" />}
@@ -65,8 +64,7 @@ export default function App(): React.JSX.Element {
           <Stack.Screen
             options={{
               title: 'Forecast',
-              // eslint-disable-next-line react/no-unstable-nested-components
-              header: ({options}) => <Header options={options} />,
+              header: ({ options }) => <Header options={options} />,
             }}
             name="Forecast"
             component={Forecast}
@@ -75,7 +73,7 @@ export default function App(): React.JSX.Element {
             options={{
               title: 'Settings',
               // eslint-disable-next-line react/no-unstable-nested-components
-              header: ({options}) => <Header options={options} />,
+              header: ({ options }) => <Header options={options} />,
             }}
             name="Settings"
             component={Settings}

@@ -20,7 +20,7 @@ export function Forecast(): JSX.Element {
   return (
     <View style={styles.forecastScreenContainer}>
       {isLoading && <ActivityIndicator />}
-      {citiesArray && activeItem && (
+      {citiesArray.length === 2 && activeItem && (
         <Toggle
           items={citiesArray as [string, string]}
           activeItem={activeItem}

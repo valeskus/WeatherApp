@@ -8,4 +8,10 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 15,
     backgroundColor: Colors.background,
   },
+  title: {
+    fontSize: 20,
+    fontWeight: '700',
+    paddingBottom: 20,
+    color: Colors.primary,
+  },
 });

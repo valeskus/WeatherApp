@@ -27,6 +27,7 @@ export const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     height: '100%',
+    paddingBottom: 5,
   },
   weatherInfo: {
     height: 100,
