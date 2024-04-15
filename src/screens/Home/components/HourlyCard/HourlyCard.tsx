@@ -17,8 +17,7 @@ export function HourlyCard({icon, temp, unit, hour}: Props): JSX.Element {
       <Text style={styles.textInfo}>{hour}</Text>
       <Image style={styles.icon} source={Icons[icon]} />
       <Text style={styles.textInfo}>
-        {Math.round(temp)}
-        {unit}
+        {Math.round(temp)}°{unit}
       </Text>
     </View>
   );
