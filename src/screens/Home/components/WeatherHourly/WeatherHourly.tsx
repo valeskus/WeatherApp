@@ -5,26 +5,32 @@ import {useWeatherHourlyController} from './useWeatherHourlyController';
 import {HourlyCard} from '../HourlyCard';
 import {Icons} from '../../../../UI/Icons';
 import {FlatList} from 'react-native-gesture-handler';
+import {ActivityIndicator} from 'react-native';
 
 interface Props {}
 
 export function WeatherHourly({}: Props): JSX.Element {
-  const {hourlyWeather, units} = useWeatherHourlyController();
+  const {hourlyWeather, units, isLoading} = useWeatherHourlyController();
 
   return (
-    <FlatList
-      style={styles.weatherContainer}
-      horizontal
-      data={hourlyWeather}
-      renderItem={({item}) => (
-        <HourlyCard
-          temp={item.temp}
-          unit={units as 'F' | 'C'}
-          icon={item.icon as keyof typeof Icons}
-          hour={item.hour}
+    <>
+      {isLoading && <ActivityIndicator size={'large'} color={'white'} />}
+      {!isLoading && (
+        <FlatList
+          style={styles.weatherContainer}
+          horizontal
+          data={hourlyWeather}
+          renderItem={({item}) => (
+            <HourlyCard
+              temp={item.temp}
+              unit={units as 'F' | 'C'}
+              icon={item.icon as keyof typeof Icons}
+              hour={item.hour}
+            />
+          )}
+          keyExtractor={item => item.hour.toString()}
         />
       )}
-      keyExtractor={item => item.hour.toString()}
-    />
+    </>
   );
 }

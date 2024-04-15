@@ -50,7 +50,6 @@ export const getForecast = async (
 ) => {
   try {
     const forecastWeather = await WeatherApi.getForecast(cityName, units);
-
     dispatch(actionGetForecast(forecastWeather));
   } catch (error) {
     dispatch(actionError('getForecast', error));

@@ -1,4 +1,4 @@
-import {useCallback, useEffect} from 'react';
+import {useCallback, useEffect, useState} from 'react';
 import * as WeatherStore from '../../stores/weather';
 import * as ErrorsStore from '../../stores/errors';
 
@@ -6,6 +6,7 @@ import {useGetCurentCityFromStorage} from './hooks';
 import {Alert} from 'react-native';
 
 export const useHomeController = () => {
+  const [isLoading, setLoading] = useState<boolean>(false);
   const {city, units, currentWeather} = WeatherStore.useWeatherStore();
   const getCurrentWeather = WeatherStore.useGetCurrentWeather();
   const getCoordinates = WeatherStore.useGetCoordinates();
@@ -29,6 +30,7 @@ export const useHomeController = () => {
     [getCoordinates],
   );
   useEffect(() => {
+    setLoading(true);
     getUnitsFromStorage();
 
     if (!city) {
@@ -36,7 +38,7 @@ export const useHomeController = () => {
       return;
     }
 
-    getCurrentWeather(city, units);
+    getCurrentWeather(city, units).then(() => setLoading(false));
   }, [city, getCurrentWeather, getCityFromStorage, getUnitsFromStorage, units]);
 
   useEffect(() => {
@@ -57,5 +59,6 @@ export const useHomeController = () => {
     currentWeather,
     units,
     city,
+    isLoading,
   };
 };
