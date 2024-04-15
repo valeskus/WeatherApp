@@ -6,6 +6,7 @@ import {PersistentStorageManager} from '../../managers/PersistentStorageManager'
 
 export enum WeatherActions {
   GET_CURRENT_WEATHER = '@weather/get_current_weather',
+  GET_HOURLY_WEATHER = '@weather/get_hourly_weather',
   GET_FORECAST = '@weather/get_forecast',
   SET_UNITS = '@weather/set_units',
   GET_COORDINATS = '@weather/get_coordinats',
@@ -19,6 +20,11 @@ const actionGetForecast = (payload: WeatherForecastModel) => ({
 
 const actionGetCurrentWeather = (payload: any) => ({
   type: WeatherActions.GET_CURRENT_WEATHER,
+  payload,
+});
+
+const actionGetHourlyWeather = (payload: any) => ({
+  type: WeatherActions.GET_HOURLY_WEATHER,
   payload,
 });
 
@@ -48,6 +54,21 @@ export const getForecast = async (
     dispatch(actionGetForecast(forecastWeather));
   } catch (error) {
     dispatch(actionError('getForecast', error));
+  }
+};
+
+export const getHourlyWeather = async (
+  dispatch: Dispatch,
+  cityName: string,
+  units: 'Imperial' | 'Metric',
+  cnt: number,
+) => {
+  try {
+    const hourlyWeather = await WeatherApi.getForecast(cityName, units, cnt);
+
+    dispatch(actionGetHourlyWeather(hourlyWeather));
+  } catch (error) {
+    dispatch(actionError('getCurrentWeather', error));
   }
 };
 

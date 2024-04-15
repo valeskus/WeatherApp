@@ -3,6 +3,7 @@ export interface WeatherDayModel {
   main: {
     temp_min: number;
     temp_max: number;
+    temp: number;
   };
   weather: [
     {
@@ -25,6 +26,12 @@ export interface PlainForecastItem {
   main: string;
   icon: string;
   id: number;
+}
+
+export interface PlainHourlyItem {
+  hour: number;
+  temp: number;
+  icon: string;
 }
 
 export interface CityLocModel {

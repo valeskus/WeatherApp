@@ -5,6 +5,7 @@ import {
   CityLocModel,
   CurrentWeather,
   PlainForecastItem,
+  PlainHourlyItem,
   WeatherForecastModel,
 } from '../../models';
 
@@ -13,6 +14,7 @@ export interface Units {
 }
 export interface WeatherStoreState {
   currentWeather?: CurrentWeather;
+  hourlyWeather?: Record<string, Array<PlainHourlyItem>>;
   city?: CityLocModel;
   forecast?: Record<string, Array<PlainForecastItem>>;
   units: 'Imperial' | 'Metric';
@@ -42,6 +44,41 @@ export function weatherReducer(
       return {
         ...state,
         currentWeather,
+      };
+    }
+
+    case WeatherActions.GET_HOURLY_WEATHER: {
+      // const hourlyWeather = action.payload as WeatherForecastModel;
+
+      // return {
+      //   ...state,
+      //   hourlyWeather,
+      // };
+
+      const {list} = action.payload as WeatherForecastModel;
+
+      return {
+        ...state,
+        hourlyWeather: list.reduce<Record<string, Array<PlainHourlyItem>>>(
+          (accumulator, item) => {
+            const plainItem = {
+              hour: new Date(item.dt * 1000).getHours(),
+              temp: item.main.temp,
+              icon: item.weather[0].icon,
+            };
+
+            const textDate = new Date(item.dt * 1000).toDateString();
+
+            if (accumulator[textDate]) {
+              accumulator[textDate].push(plainItem);
+            } else {
+              accumulator[textDate] = [plainItem];
+            }
+
+            return accumulator;
+          },
+          {},
+        ),
       };
     }
 

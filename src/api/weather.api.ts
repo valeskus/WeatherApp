@@ -5,12 +5,14 @@ import {API_KEY} from '@env';
 export const getForecast = async (
   city: string,
   units: 'Imperial' | 'Metric',
+  cnt?: number,
 ): Promise<WeatherForecastModel> => {
   const result = await client.get<WeatherForecastModel>('/data/2.5/forecast', {
     params: {
       q: city,
       APPID: API_KEY,
       units,
+      cnt,
     },
   });
 

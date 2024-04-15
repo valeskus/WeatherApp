@@ -26,7 +26,7 @@ export const styles = StyleSheet.create({
   cardItem: {
     flex: 1,
     flexDirection: 'column',
-    height: 300,
+    height: 250,
   },
   weatherInfo: {
     height: 100,
@@ -45,8 +45,9 @@ export const styles = StyleSheet.create({
     color: 'white',
   },
   text_secondary: {
-    fontSize: 20,
+    fontSize: 18,
     color: 'white',
+    marginBottom: 5,
   },
   text_primary: {
     fontSize: 30,

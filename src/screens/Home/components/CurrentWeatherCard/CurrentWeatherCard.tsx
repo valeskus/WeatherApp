@@ -7,6 +7,7 @@ import {
   useCurrentWeatherCardController,
 } from './useCurrentWeatherCardController';
 import {Icons} from '../../../../UI/Icons';
+import {WeatherHourly} from '../WeatherHourly';
 
 interface Props extends CurrentWeatherCardControllerParams {}
 
@@ -61,6 +62,10 @@ export function CurrentWeatherCard(props: Props): JSX.Element {
           <Text style={styles.textInfo}>{'Feels like'}</Text>
         </View>
       </View>
+      <Text style={styles.text_secondary}>
+        {'The weather today with a 3-hour step:'}
+      </Text>
+      <WeatherHourly />
     </View>
   );
 }
