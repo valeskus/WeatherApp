@@ -19,7 +19,7 @@ export const useForecastController = () => {
       setLoading(false);
       return;
     }
-    getForecast(city.name, units).then(() => setLoading(false));
+    getForecast(city, units).then(() => setLoading(false));
   }, [city, forecast, getForecast, units]);
 
   useEffect(() => {

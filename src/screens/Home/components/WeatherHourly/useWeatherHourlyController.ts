@@ -18,7 +18,7 @@ export const useWeatherHourlyController = () => {
       return;
     }
 
-    getHourlyWeather(city?.name, units, cnt).then(() => setLoading(false));
+    getHourlyWeather(city, units, cnt).then(() => setLoading(false));
   }, [city, units, getHourlyWeather, cnt]);
 
   const weather = useMemo(() => {

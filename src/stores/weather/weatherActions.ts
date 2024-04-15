@@ -44,12 +44,12 @@ const actionError = (key: string, error: unknown) => ({
 });
 
 export const getForecast = async (
-  cityName: string,
+  city: Omit<CityLocModel, 'name'>,
   units: 'Imperial' | 'Metric',
   dispatch: Dispatch,
 ) => {
   try {
-    const forecastWeather = await WeatherApi.getForecast(cityName, units);
+    const forecastWeather = await WeatherApi.getForecast(city, units);
     dispatch(actionGetForecast(forecastWeather));
   } catch (error) {
     dispatch(actionError('getForecast', error));
@@ -58,12 +58,12 @@ export const getForecast = async (
 
 export const getHourlyWeather = async (
   dispatch: Dispatch,
-  cityName: string,
+  city: Omit<CityLocModel, 'name'>,
   units: 'Imperial' | 'Metric',
   cnt: number,
 ) => {
   try {
-    const hourlyWeather = await WeatherApi.getForecast(cityName, units, cnt);
+    const hourlyWeather = await WeatherApi.getForecast(city, units, cnt);
 
     dispatch(actionGetHourlyWeather(hourlyWeather));
   } catch (error) {
@@ -91,7 +91,6 @@ export const getCoordinatesByLocationName = async (
 ) => {
   try {
     const city = await WeatherApi.getCoordinatesByLocationName(cityName);
-
     dispatch(actionGetCoordinates(city));
     PersistentStorageManager.set('cityName', city.name);
   } catch (error) {

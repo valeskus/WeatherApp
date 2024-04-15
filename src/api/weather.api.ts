@@ -3,13 +3,14 @@ import {client} from './client';
 import {API_KEY} from '@env';
 
 export const getForecast = async (
-  city: string,
+  city: Omit<CityLocModel, 'name'>,
   units: 'Imperial' | 'Metric',
   cnt?: number,
 ): Promise<WeatherForecastModel> => {
   const result = await client.get<WeatherForecastModel>('/data/2.5/forecast', {
     params: {
-      q: city,
+      lat: city.lat,
+      lon: city.lon,
       APPID: API_KEY,
       units,
       cnt,
