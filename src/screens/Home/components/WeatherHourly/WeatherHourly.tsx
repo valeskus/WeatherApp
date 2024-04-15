@@ -6,11 +6,15 @@ import {HourlyCard} from '../HourlyCard';
 import {Icons} from '../../../../UI/Icons';
 import {FlatList} from 'react-native-gesture-handler';
 import {ActivityIndicator} from 'react-native';
+import {CityLocModel} from '../../../../models';
 
-interface Props {}
+interface Props {
+  locationCity?: CityLocModel;
+}
 
-export function WeatherHourly({}: Props): JSX.Element {
-  const {hourlyWeather, units, isLoading} = useWeatherHourlyController();
+export function WeatherHourly({locationCity}: Props): JSX.Element {
+  const {hourlyWeather, units, isLoading} =
+    useWeatherHourlyController(locationCity);
 
   return (
     <>

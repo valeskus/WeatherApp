@@ -65,7 +65,7 @@ export function CurrentWeatherCard(props: Props): JSX.Element {
       <Text style={styles.text_secondary}>
         {'The weather today with a 3-hour step:'}
       </Text>
-      <WeatherHourly />
+      <WeatherHourly locationCity={props.locationCity} />
     </View>
   );
 }

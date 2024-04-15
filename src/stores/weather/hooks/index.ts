@@ -4,3 +4,6 @@ export * from './useGetCurrentWeather';
 export * from './useGetCoordinates';
 export * from './useSetUnits';
 export * from './useGetHourlyWeather';
+export * from './useGetCurrentWeatherByLocation';
+export * from './useGetLocationName';
+export * from './useGetHourlyWeatherByLocation';

@@ -14,8 +14,11 @@ export interface Units {
 }
 export interface WeatherStoreState {
   currentWeather?: CurrentWeather;
+  currentWeatherByLocation?: CurrentWeather;
   hourlyWeather?: Record<string, Array<PlainHourlyItem>>;
+  hourlyWeatherByLocation?: Record<string, Array<PlainHourlyItem>>;
   city?: CityLocModel;
+  locationCity?: CityLocModel;
   forecast?: Record<string, Array<PlainForecastItem>>;
   units: 'Imperial' | 'Metric';
 }
@@ -47,14 +50,16 @@ export function weatherReducer(
       };
     }
 
+    case WeatherActions.GET_CURRENT_WEATHER_BY_LOCATION: {
+      const currentWeatherByLocation = action.payload as CurrentWeather;
+
+      return {
+        ...state,
+        currentWeatherByLocation,
+      };
+    }
+
     case WeatherActions.GET_HOURLY_WEATHER: {
-      // const hourlyWeather = action.payload as WeatherForecastModel;
-
-      // return {
-      //   ...state,
-      //   hourlyWeather,
-      // };
-
       const {list} = action.payload as WeatherForecastModel;
 
       return {
@@ -79,6 +84,33 @@ export function weatherReducer(
           },
           {},
         ),
+      };
+    }
+
+    case WeatherActions.GET_HOURLY_WEATHER_BY_LOCATION: {
+      const {list} = action.payload as WeatherForecastModel;
+
+      return {
+        ...state,
+        hourlyWeatherByLocation: list.reduce<
+          Record<string, Array<PlainHourlyItem>>
+        >((accumulator, item) => {
+          const plainItem = {
+            hour: new Date(item.dt * 1000).getHours(),
+            temp: item.main.temp,
+            icon: item.weather[0].icon,
+          };
+
+          const textDate = new Date(item.dt * 1000).toDateString();
+
+          if (accumulator[textDate]) {
+            accumulator[textDate].push(plainItem);
+          } else {
+            accumulator[textDate] = [plainItem];
+          }
+
+          return accumulator;
+        }, {}),
       };
     }
 
@@ -119,6 +151,14 @@ export function weatherReducer(
       return {
         ...state,
         units,
+      };
+    }
+
+    case WeatherActions.GET_LOCATION_NAME: {
+      const locationCity = action.payload as CityLocModel;
+      return {
+        ...state,
+        locationCity,
       };
     }
 

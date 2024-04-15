@@ -7,8 +7,15 @@ import {Search} from '../../components/Search';
 import {CurrentWeatherCard} from './components/CurrentWeatherCard/CurrentWeatherCard';
 
 export function Home(): JSX.Element {
-  const {handleSearch, currentWeather, units, city, isLoading} =
-    useHomeController();
+  const {
+    handleSearch,
+    currentWeather,
+    units,
+    city,
+    isLoading,
+    currentWeatherByLocation,
+    locationCity,
+  } = useHomeController();
 
   return (
     <View style={styles.homeScreenContainer}>
@@ -23,6 +30,17 @@ export function Home(): JSX.Element {
                 currentWeather={currentWeather}
                 units={units}
                 city={city?.name || ''}
+              />
+            </>
+          )}
+          {currentWeatherByLocation && (
+            <>
+              <Text style={styles.note}>{'Your location result:'}</Text>
+              <CurrentWeatherCard
+                currentWeather={currentWeatherByLocation}
+                units={units}
+                city={locationCity?.name || ''}
+                locationCity={locationCity}
               />
             </>
           )}

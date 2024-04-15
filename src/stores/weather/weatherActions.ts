@@ -6,10 +6,13 @@ import {PersistentStorageManager} from '../../managers/PersistentStorageManager'
 
 export enum WeatherActions {
   GET_CURRENT_WEATHER = '@weather/get_current_weather',
+  GET_CURRENT_WEATHER_BY_LOCATION = '@weather/get_current_weather_by_location',
   GET_HOURLY_WEATHER = '@weather/get_hourly_weather',
+  GET_HOURLY_WEATHER_BY_LOCATION = '@weather/get_hourly_weather_by_location',
   GET_FORECAST = '@weather/get_forecast',
   SET_UNITS = '@weather/set_units',
   GET_COORDINATS = '@weather/get_coordinats',
+  GET_LOCATION_NAME = '@weather/get_location_name',
   ERROR = '@error/weather',
 }
 
@@ -23,13 +26,28 @@ const actionGetCurrentWeather = (payload: any) => ({
   payload,
 });
 
+const actionGetCurrentWeatherByLocation = (payload: any) => ({
+  type: WeatherActions.GET_CURRENT_WEATHER_BY_LOCATION,
+  payload,
+});
+
 const actionGetHourlyWeather = (payload: any) => ({
   type: WeatherActions.GET_HOURLY_WEATHER,
   payload,
 });
 
+const actionGetHourlyWeatherByLocation = (payload: any) => ({
+  type: WeatherActions.GET_HOURLY_WEATHER_BY_LOCATION,
+  payload,
+});
+
 const actionGetCoordinates = (payload: CityLocModel) => ({
   type: WeatherActions.GET_COORDINATS,
+  payload,
+});
+
+const actionGetLocationNameByCoordinates = (payload: CityLocModel) => ({
+  type: WeatherActions.GET_LOCATION_NAME,
   payload,
 });
 
@@ -71,6 +89,21 @@ export const getHourlyWeather = async (
   }
 };
 
+export const getHourlyWeatherByLocation = async (
+  dispatch: Dispatch,
+  city: Omit<CityLocModel, 'name'>,
+  units: 'Imperial' | 'Metric',
+  cnt: number,
+) => {
+  try {
+    const hourlyWeather = await WeatherApi.getForecast(city, units, cnt);
+
+    dispatch(actionGetHourlyWeatherByLocation(hourlyWeather));
+  } catch (error) {
+    dispatch(actionError('getCurrentWeather', error));
+  }
+};
+
 export const getCurrentWeather = async (
   dispatch: Dispatch,
   location: Omit<CityLocModel, 'name' | 'state'>,
@@ -85,6 +118,19 @@ export const getCurrentWeather = async (
   }
 };
 
+export const getCurrentWeatherByLocation = async (
+  dispatch: Dispatch,
+  location: Omit<CityLocModel, 'name' | 'state'>,
+  units: 'Imperial' | 'Metric',
+) => {
+  try {
+    const weather = await WeatherApi.getCurrentWeather(location, units);
+    dispatch(actionGetCurrentWeatherByLocation(weather));
+  } catch (error) {
+    dispatch(actionError('getCurrentWeather', error));
+  }
+};
+
 export const getCoordinatesByLocationName = async (
   dispatch: Dispatch,
   cityName: string,
@@ -93,6 +139,18 @@ export const getCoordinatesByLocationName = async (
     const city = await WeatherApi.getCoordinatesByLocationName(cityName);
     dispatch(actionGetCoordinates(city));
     PersistentStorageManager.set('cityName', city.name);
+  } catch (error) {
+    dispatch(actionError('getCoordinatesByLocationName', error));
+  }
+};
+
+export const getLocationNameByCoordinates = async (
+  dispatch: Dispatch,
+  cityLoc: {lon: number; lat: number},
+) => {
+  try {
+    const city = await WeatherApi.getLocationNameByCoordinates(cityLoc);
+    dispatch(actionGetLocationNameByCoordinates(city));
   } catch (error) {
     dispatch(actionError('getCoordinatesByLocationName', error));
   }

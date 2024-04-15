@@ -1,10 +1,11 @@
 import {useEffect, useState} from 'react';
-import {CurrentWeather} from '../../../../models';
+import {CityLocModel, CurrentWeather} from '../../../../models';
 
 export interface CurrentWeatherCardControllerParams {
   currentWeather: CurrentWeather;
   units: 'Imperial' | 'Metric';
   city: string;
+  locationCity?: CityLocModel;
 }
 
 export const useCurrentWeatherCardController = ({
