@@ -59,11 +59,31 @@ export const useForecastController = () => {
     () => Object.entries(forecastByLocation || {}),
     [forecastByLocation],
   );
+
+  const getForecasts = useCallback(() => {
+    if (!activeItem) {
+      return forecastByGeoLocation;
+    }
+    if (!locationCity) {
+      return forecastBySearch;
+    }
+    return city?.name === activeItem ? forecastBySearch : forecastByGeoLocation;
+  }, [activeItem, forecastByGeoLocation, locationCity, forecastBySearch, city]);
+
+  const getCities = useCallback(() => {
+    if (!activeItem) {
+      return locationCity?.name;
+    }
+    if (!locationCity) {
+      return city?.name;
+    }
+    return city?.name === activeItem ? city?.name : locationCity?.name;
+  }, [activeItem, locationCity, city]);
+
   return {
-    forecast:
-      city?.name === activeItem ? forecastBySearch : forecastByGeoLocation,
+    forecast: getForecasts(),
     units,
-    city: city?.name === activeItem ? city?.name : locationCity?.name,
+    city: getCities(),
     isLoading,
     citiesArray,
     activeItem,

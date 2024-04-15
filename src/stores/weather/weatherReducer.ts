@@ -148,7 +148,7 @@ export function weatherReducer(
 
     case WeatherActions.GET_FORECAST_BY_LOCATION: {
       const {list} = action.payload as WeatherForecastModel;
-      console.log('REDUCER', list);
+
       return {
         ...state,
         forecastByLocation: list.reduce<

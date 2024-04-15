@@ -30,7 +30,7 @@ export function Forecast(): JSX.Element {
       <ScrollView
         style={styles.cardContainer}
         showsVerticalScrollIndicator={false}>
-        {city && forecast && (
+        {forecast && (
           <>
             <Text style={styles.note}>{city}:</Text>
             {forecast.map((weatherData, index) => (
