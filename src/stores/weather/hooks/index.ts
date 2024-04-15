@@ -7,3 +7,5 @@ export * from './useGetHourlyWeather';
 export * from './useGetCurrentWeatherByLocation';
 export * from './useGetLocationName';
 export * from './useGetHourlyWeatherByLocation';
+export * from './useGetCurrentWeatherByLocation';
+export * from './useGetForecastByLocation';

@@ -68,5 +68,7 @@ export const styles = StyleSheet.create({
   },
   tempBox: {
     flexDirection: 'row',
+    width: 130,
+    justifyContent: 'center',
   },
 });

@@ -1,4 +1,4 @@
-import {useEffect, useMemo, useState} from 'react';
+import {useCallback, useEffect, useMemo, useState} from 'react';
 import * as WeatherStore from '../../stores/weather';
 import * as ErrorsStore from '../../stores/errors';
 import {Alert} from 'react-native';
@@ -6,21 +6,42 @@ import {useNavigation} from '@react-navigation/native';
 
 export const useForecastController = () => {
   const [isLoading, setLoading] = useState<boolean>(false);
+  const {city, forecast, forecastByLocation, units, locationCity} =
+    WeatherStore.useWeatherStore();
+  const [activeItem, setActiveItem] = useState<string | undefined>(city?.name);
 
-  const {city, forecast, units} = WeatherStore.useWeatherStore();
   const getForecast = WeatherStore.useGetForecast();
+  const getForecastByLocation = WeatherStore.useGetForecastByLocation();
+
   const errorGetForecast = ErrorsStore.useGetErrorFor('getForecast');
   const resetGetForecastError = ErrorsStore.useResetErrors('getForecast');
   const navigation = useNavigation();
 
+  const citiesArray = [city?.name, locationCity?.name];
+
+  const handleChangeForecastItems = useCallback((cityName: string) => {
+    setActiveItem(cityName);
+  }, []);
+
   useEffect(() => {
     setLoading(true);
+    if (locationCity) {
+      getForecastByLocation(locationCity, units).then(() => setLoading(false));
+    }
     if (!city || forecast) {
       setLoading(false);
       return;
     }
     getForecast(city, units).then(() => setLoading(false));
-  }, [city, forecast, getForecast, units]);
+  }, [city, forecast, getForecast, units, locationCity, getForecastByLocation]);
+
+  useEffect(() => {
+    setLoading(true);
+    if (!locationCity) {
+      return;
+    }
+    getForecastByLocation(locationCity, units).then(() => setLoading(false));
+  }, [units, locationCity, getForecastByLocation]);
 
   useEffect(() => {
     if (errorGetForecast) {
@@ -30,10 +51,22 @@ export const useForecastController = () => {
     }
   }, [errorGetForecast, resetGetForecastError, navigation]);
 
+  const forecastBySearch = useMemo(
+    () => Object.entries(forecast || {}),
+    [forecast],
+  );
+  const forecastByGeoLocation = useMemo(
+    () => Object.entries(forecastByLocation || {}),
+    [forecastByLocation],
+  );
   return {
-    forecast: useMemo(() => Object.entries(forecast || {}), [forecast]),
+    forecast:
+      city?.name === activeItem ? forecastBySearch : forecastByGeoLocation,
     units,
-    city,
+    city: city?.name === activeItem ? city?.name : locationCity?.name,
     isLoading,
+    citiesArray,
+    activeItem,
+    handleChangeForecastItems,
   };
 };

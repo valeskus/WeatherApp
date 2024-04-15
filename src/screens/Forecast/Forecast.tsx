@@ -4,23 +4,40 @@ import {ActivityIndicator, ScrollView, Text, View} from 'react-native';
 import {styles} from './styles';
 import {useForecastController} from './useForecastController';
 import {WeatherCard} from './components/WeatherCard/WeatherCard';
+import {Toggle} from '../../UI/Toggle';
 
 export function Forecast(): JSX.Element {
-  const {forecast, units, city, isLoading} = useForecastController();
+  const {
+    forecast,
+    units,
+    city,
+    isLoading,
+    citiesArray,
+    activeItem,
+    handleChangeForecastItems,
+  } = useForecastController();
 
   return (
     <View style={styles.forecastScreenContainer}>
       {isLoading && <ActivityIndicator />}
-      <ScrollView style={styles.cardContainer}>
+      {citiesArray && activeItem && (
+        <Toggle
+          items={citiesArray as [string, string]}
+          activeItem={activeItem}
+          onChange={handleChangeForecastItems}
+        />
+      )}
+      <ScrollView
+        style={styles.cardContainer}
+        showsVerticalScrollIndicator={false}>
         {city && forecast && (
           <>
-            <Text style={styles.note}>{city.name}:</Text>
+            <Text style={styles.note}>{city}:</Text>
             {forecast.map((weatherData, index) => (
               <WeatherCard
                 key={index}
                 weatherData={weatherData}
                 units={units}
-                city={city?.name || ''}
               />
             ))}
           </>

@@ -20,6 +20,7 @@ export interface WeatherStoreState {
   city?: CityLocModel;
   locationCity?: CityLocModel;
   forecast?: Record<string, Array<PlainForecastItem>>;
+  forecastByLocation?: Record<string, Array<PlainForecastItem>>;
   units: 'Imperial' | 'Metric';
 }
 
@@ -142,6 +143,36 @@ export function weatherReducer(
           },
           {},
         ),
+      };
+    }
+
+    case WeatherActions.GET_FORECAST_BY_LOCATION: {
+      const {list} = action.payload as WeatherForecastModel;
+      console.log('REDUCER', list);
+      return {
+        ...state,
+        forecastByLocation: list.reduce<
+          Record<string, Array<PlainForecastItem>>
+        >((accumulator, item) => {
+          const plainItem = {
+            temp_max: item.main.temp_max,
+            temp_min: item.main.temp_min,
+            description: item.weather[0].description,
+            icon: item.weather[0].icon,
+            main: item.weather[0].main,
+            id: item.weather[0].id,
+          };
+
+          const textDate = new Date(item.dt * 1000).toDateString();
+
+          if (accumulator[textDate]) {
+            accumulator[textDate].push(plainItem);
+          } else {
+            accumulator[textDate] = [plainItem];
+          }
+
+          return accumulator;
+        }, {}),
       };
     }
 

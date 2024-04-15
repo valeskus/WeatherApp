@@ -1,7 +1,7 @@
 import {Dispatch} from 'redux';
 
 import * as WeatherApi from '../../api/weather.api';
-import {CityLocModel, WeatherForecastModel} from '../../models';
+import {CityLocModel, CurrentWeather, WeatherForecastModel} from '../../models';
 import {PersistentStorageManager} from '../../managers/PersistentStorageManager';
 
 export enum WeatherActions {
@@ -10,6 +10,7 @@ export enum WeatherActions {
   GET_HOURLY_WEATHER = '@weather/get_hourly_weather',
   GET_HOURLY_WEATHER_BY_LOCATION = '@weather/get_hourly_weather_by_location',
   GET_FORECAST = '@weather/get_forecast',
+  GET_FORECAST_BY_LOCATION = '@weather/get_forecast_by_location',
   SET_UNITS = '@weather/set_units',
   GET_COORDINATS = '@weather/get_coordinats',
   GET_LOCATION_NAME = '@weather/get_location_name',
@@ -21,22 +22,27 @@ const actionGetForecast = (payload: WeatherForecastModel) => ({
   payload,
 });
 
-const actionGetCurrentWeather = (payload: any) => ({
+const actionGetForecastByLocation = (payload: WeatherForecastModel) => ({
+  type: WeatherActions.GET_FORECAST_BY_LOCATION,
+  payload,
+});
+
+const actionGetCurrentWeather = (payload: CurrentWeather) => ({
   type: WeatherActions.GET_CURRENT_WEATHER,
   payload,
 });
 
-const actionGetCurrentWeatherByLocation = (payload: any) => ({
+const actionGetCurrentWeatherByLocation = (payload: CurrentWeather) => ({
   type: WeatherActions.GET_CURRENT_WEATHER_BY_LOCATION,
   payload,
 });
 
-const actionGetHourlyWeather = (payload: any) => ({
+const actionGetHourlyWeather = (payload: WeatherForecastModel) => ({
   type: WeatherActions.GET_HOURLY_WEATHER,
   payload,
 });
 
-const actionGetHourlyWeatherByLocation = (payload: any) => ({
+const actionGetHourlyWeatherByLocation = (payload: WeatherForecastModel) => ({
   type: WeatherActions.GET_HOURLY_WEATHER_BY_LOCATION,
   payload,
 });
@@ -74,6 +80,19 @@ export const getForecast = async (
   }
 };
 
+export const getForecastByLocation = async (
+  city: Omit<CityLocModel, 'name'>,
+  units: 'Imperial' | 'Metric',
+  dispatch: Dispatch,
+) => {
+  try {
+    const forecastWeather = await WeatherApi.getForecast(city, units);
+    dispatch(actionGetForecastByLocation(forecastWeather));
+  } catch (error) {
+    dispatch(actionError('getForecastByLocation', error));
+  }
+};
+
 export const getHourlyWeather = async (
   dispatch: Dispatch,
   city: Omit<CityLocModel, 'name'>,
@@ -85,7 +104,7 @@ export const getHourlyWeather = async (
 
     dispatch(actionGetHourlyWeather(hourlyWeather));
   } catch (error) {
-    dispatch(actionError('getCurrentWeather', error));
+    dispatch(actionError('getHourlyWeather', error));
   }
 };
 
@@ -100,7 +119,7 @@ export const getHourlyWeatherByLocation = async (
 
     dispatch(actionGetHourlyWeatherByLocation(hourlyWeather));
   } catch (error) {
-    dispatch(actionError('getCurrentWeather', error));
+    dispatch(actionError('getHourlyWeatherByLocation', error));
   }
 };
 
@@ -127,7 +146,7 @@ export const getCurrentWeatherByLocation = async (
     const weather = await WeatherApi.getCurrentWeather(location, units);
     dispatch(actionGetCurrentWeatherByLocation(weather));
   } catch (error) {
-    dispatch(actionError('getCurrentWeather', error));
+    dispatch(actionError('getCurrentWeatherByLocation', error));
   }
 };
 
@@ -152,7 +171,7 @@ export const getLocationNameByCoordinates = async (
     const city = await WeatherApi.getLocationNameByCoordinates(cityLoc);
     dispatch(actionGetLocationNameByCoordinates(city));
   } catch (error) {
-    dispatch(actionError('getCoordinatesByLocationName', error));
+    dispatch(actionError('getLocationNameByCoordinates', error));
   }
 };
 

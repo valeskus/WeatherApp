@@ -4,7 +4,7 @@ import {PlainForecastItem} from '../../../../models';
 export interface WeatherCardControllerParams {
   weatherData: [date: string, Array<PlainForecastItem>];
   units: 'Imperial' | 'Metric';
-  city: string;
+  city?: string;
 }
 
 const dateRegexp =

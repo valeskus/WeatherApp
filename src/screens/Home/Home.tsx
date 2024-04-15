@@ -22,7 +22,9 @@ export function Home(): JSX.Element {
       <Search onSearch={handleSearch} />
       {isLoading && <ActivityIndicator size={'large'} />}
       {!isLoading && (
-        <ScrollView style={styles.cardContainer}>
+        <ScrollView
+          style={styles.cardContainer}
+          showsVerticalScrollIndicator={false}>
           {currentWeather && (
             <>
               <Text style={styles.note}>{'Last search result:'}</Text>

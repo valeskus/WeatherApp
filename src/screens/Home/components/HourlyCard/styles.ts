@@ -14,7 +14,7 @@ export const styles = StyleSheet.create({
   },
   icon: {
     width: '100%',
-    height: '75%',
+    height: '65%',
     objectFit: 'contain',
   },
 
